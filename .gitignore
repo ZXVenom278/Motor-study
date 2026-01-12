@@ -1,0 +1,14 @@
+# Build artifacts
+*.o
+*.out
+hello
+program
+
+# Editor backups
+*~
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
