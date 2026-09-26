@@ -1,6 +1,6 @@
 # Handoff: OpenCode PC agent + phone access
 
-State as of 2026-09-26. Everything runs on Allen's PC "nitro" (Windows 11, RTX 4050 6 GB). No secrets in this file; it points to the files that hold them.
+State as of 2026-09-26 (updated end of day). Everything runs on Allen's PC "nitro" (Windows 11, RTX 4050 6 GB). No secrets in this file; it points to the files that hold them.
 
 ## What it is
 
@@ -34,3 +34,41 @@ All three use the same server and the same chat: whatever was used last, the rul
 | Demon Dodo tool | `...\opencode\tool\demon_dodo.js` | the agent acts as the bot: send, DM, read, edit, delete, bulk delete, broadcast, react, status |
 | Discord bot token + owner ID | `...\discord-bridge\config.json` | secret; created by `install.ps1` |
 | Unused leftovers | `OpenCodeRemote\bridge.js`, `OpenCodeRemote\public\index.html` (incomplete), `OpenCodeRemote\test\` | Safe to delete; not used by anything |
+
+## Status: Discord bridge (Demon Dodo)
+
+**Code is done and pushed. It is NOT installed on nitro yet.**
+
+- Code: `opencode-discord/` on branch `claude/opencode-pc-phone-handoff-soouje`, [PR #2](https://github.com/ZXVenom278/Motor-study/pull/2) (open)
+- Tested in the cloud against a real OpenCode server with a simulated Discord: owner-only DMs, shared memory across PC/phone/Discord, permission prompts in the DM, `demon_dodo` actions. The download step of `get.ps1` was tested against GitHub.
+- Not tested: the real Discord login, and the Windows-only parts of `install.ps1` (scheduled task, finding the old bot, restarting OpenCode). No Windows machine or real token was available.
+
+### Next step: install on nitro
+
+Run this in PowerShell on nitro, and answer the questions it asks:
+
+```powershell
+irm https://raw.githubusercontent.com/ZXVenom278/Motor-study/claude/opencode-pc-phone-handoff-soouje/opencode-discord/get.ps1 | iex
+```
+
+The installer does the following:
+- Finds the old Demon Dodo's token, or asks for it.
+- Asks for Allen's Discord user ID.
+- Offers to switch off the old Demon Dodo (processes, tasks, startup items, old OpenCode tools).
+- Installs the `demon_dodo` tool and the logon task "OpenCode Discord".
+- Restarts the OpenCode server.
+- Runs a health check.
+
+A cloud session can't reach nitro. Run it yourself, or have a Claude session running on nitro run it (e.g. the Remote Control session "Command prompt troubleshooting").
+
+### After install
+- In the [Discord Developer Portal](https://discord.com/developers/applications), open Demon Dodo → Bot and turn on **Message Content Intent**. Without it, `read` returns messages with empty text. For `members`, also turn on **Server Members Intent** and set `"membersIntent": true` in `config.json`.
+- DM Demon Dodo from Allen's account to test. The bot answers `!help`, `!new`, `!stop` and `!session`.
+- Turn on 2FA for Allen's Discord account, because a DM to the bot can control the PC.
+- Log: `C:\Users\Allen\OpenCodeRemote\discord-bridge\bridge.log`
+
+### Open items
+- **Before merging PR #2:** `get.ps1` and the one-liner download from the branch. Switch them to `main` before merging, or they break when the branch is deleted.
+- **Unattended mode:** a mode where the OpenCode agent runs the installer with no prompts was proposed. The permission system blocked it, so it was never added. It needs Allen's explicit OK.
+- **Old Demon Dodo:** its code and location on nitro are unknown. The installer searches for it by the name "dodo". Anything else must be switched off by hand, or two bots will reply to each DM.
+- **Public repo:** this repo is public. `config.json` (token) is gitignored, so never commit it.
