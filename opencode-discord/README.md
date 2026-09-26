@@ -35,18 +35,27 @@ Commands: `!new` (new chat) · `!stop` (stop the current task) · `!session` · 
 
 ## Install on nitro
 
-1. Copy this folder to `C:\Users\Allen\OpenCodeRemote\discord-bridge`.
-2. Stop the old Demon Dodo program if it replies to DMs. It uses the same bot token, so both would answer.
-3. In PowerShell, run:
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File C:\Users\Allen\OpenCodeRemote\discord-bridge\install.ps1
-   ```
-   It asks for:
-   - the bot token, from the [Discord Developer Portal](https://discord.com/developers/applications) under Demon Dodo → Bot → Reset Token
-   - your Discord user ID: turn on Settings → Advanced → Developer Mode, then right-click your name → Copy User ID
+Open PowerShell on nitro and paste:
 
-   It then copies `demon_dodo.js` to `C:\Users\Allen\.config\opencode\tool\`, registers the logon task "OpenCode Discord" and starts it.
-4. Restart the OpenCode server (or log out and back in) so it loads the tool.
+```powershell
+irm https://raw.githubusercontent.com/ZXVenom278/Motor-study/claude/opencode-pc-phone-handoff-soouje/opencode-discord/get.ps1 | iex
+```
+
+This downloads the folder to `C:\Users\Allen\OpenCodeRemote\discord-bridge` and runs `install.ps1`, which:
+
+1. checks Node 18+ and installs packages
+2. finds the old Demon Dodo's bot token (or asks for it) and checks it with Discord; asks for your Discord user ID
+3. finds the old Demon Dodo (running processes, scheduled tasks, startup items, old OpenCode tools) and offers to switch them off
+4. installs the `demon_dodo` tool into `C:\Users\Allen\.config\opencode\tool\`
+5. registers and starts the logon task "OpenCode Discord"
+6. restarts the OpenCode server so it loads the tool
+7. checks that Demon Dodo is online and OpenCode answers
+
+Run the same line again to update. `config.json` is kept. `uninstall.ps1` removes the task and the tool.
+
+Where to find what it asks for:
+- **Bot token:** [Discord Developer Portal](https://discord.com/developers/applications) → Demon Dodo → Bot → Reset Token
+- **Your user ID:** Discord Settings → Advanced → Developer Mode on, then right-click your name → Copy User ID
 
 The DM chat needs no privileged intents. Only the server-side tool actions above need them.
 
@@ -60,4 +69,6 @@ The DM chat needs no privileged intents. Only the server-side tool actions above
 | `config.json` | token and owner ID. **Secret**, gitignored, created by `install.ps1` |
 | `config.example.json` | template with nitro's paths |
 | `start-discord.ps1` | restart loop that writes `bridge.log` |
-| `install.ps1` | one-time setup and the logon task |
+| `get.ps1` | one-line download + install/update from GitHub |
+| `install.ps1` | setup, safe to re-run |
+| `uninstall.ps1` | removes the task and the tool |
