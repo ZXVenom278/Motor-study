@@ -8,6 +8,9 @@ OpenCode is an AI agent that controls the PC: it runs commands, uses the mouse a
 
 - **The PC:** the desktop shortcut "MY AI" (`opencode attach`).
 - **His phone:** the Android app OpenCode Remote, which loads OpenCode's web UI over Tailscale.
+- **Discord:** DMs to the Demon Dodo bot (from Allen's user ID only), relayed by the Discord bridge. Replies go back to the DM.
+
+All three use the same server and the same chat: whatever was used last, the rule `opencode attach -c` follows. Each surface gets replies only for messages sent from it.
 
 ## Pieces and where they live
 
@@ -27,4 +30,6 @@ OpenCode is an AI agent that controls the PC: it runs commands, uses the mouse a
 | Android app source | `C:\Users\Allen\OpenCodeRemoteApp` | Kotlin WebView app; `README.md` has rebuild steps |
 | App signing key | `OpenCodeRemoteApp\app\opencoderemote.keystore` (+ `keystore-BACKUP\`); passwords in `OpenCodeRemoteApp\gradle.properties` | **Back up off this PC.** Losing it means updates won't install over the app |
 | APKs | `C:\Users\Allen\OpenCodeRemote\OpenCodeRemote-1.0.0/1.0.1/1.0.2.apk` | Latest is 1.0.2 (versionCode 3). Cert SHA-256 `f3c6ad07…cd48aa7` |
+| Discord bridge | `C:\Users\Allen\OpenCodeRemote\discord-bridge\` (source: `opencode-discord/` in this repo) | `bridge.js`; logon task "OpenCode Discord" runs `start-discord.ps1`; log in `bridge.log` |
+| Discord bot token + owner ID | `...\discord-bridge\config.json` | secret; created by `install.ps1` |
 | Unused leftovers | `OpenCodeRemote\bridge.js`, `OpenCodeRemote\public\index.html` (incomplete), `OpenCodeRemote\test\` | Safe to delete; not used by anything |

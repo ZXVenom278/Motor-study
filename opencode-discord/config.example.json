@@ -1,0 +1,10 @@
+{
+  "discordToken": "PASTE_DEMON_DODO_BOT_TOKEN",
+  "ownerId": "PASTE_YOUR_DISCORD_USER_ID",
+  "opencodeUrl": "http://127.0.0.1:4096",
+  "passwordFile": "C:\\Users\\Allen\\OpenCodeRemote\\password.txt",
+  "directory": "C:\\Users\\Allen",
+  "screenshotDir": "C:\\Users\\Allen\\Pictures\\OpenCode Screenshots",
+  "screenshotsPerReply": 1,
+  "uploadsDir": "C:\\Users\\Allen\\PhoneUploads\\discord"
+}
