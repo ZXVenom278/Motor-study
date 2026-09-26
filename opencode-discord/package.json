@@ -1,0 +1,17 @@
+{
+  "name": "opencode-discord",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demon Dodo Discord DMs -> the OpenCode server on nitro",
+  "type": "module",
+  "main": "bridge.js",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0"
+  }
+}
