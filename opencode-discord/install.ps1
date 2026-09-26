@@ -17,6 +17,11 @@ if (-not (Test-Path $cfg)) {
     Write-Host "Wrote $cfg"
 }
 
+$toolDir = Join-Path $env:USERPROFILE '.config\opencode\tool'
+New-Item -ItemType Directory -Force $toolDir | Out-Null
+Copy-Item (Join-Path $here 'tool\demon_dodo.js') $toolDir -Force
+Write-Host "Installed demon_dodo tool to $toolDir (restart the OpenCode server to load it)"
+
 $task = 'OpenCode Discord'
 $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$here\start-discord.ps1`""
 $trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME

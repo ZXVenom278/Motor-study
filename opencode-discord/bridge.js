@@ -1,15 +1,17 @@
 // Demon Dodo <-> OpenCode bridge.
 // Owner's Discord DMs go into the same OpenCode server (and the same session)
 // that MY AI and the phone app use. Replies go back to the DM only.
+// Also serves the control API (control.js) the agent uses to act as Demon Dodo.
 
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Client, GatewayIntentBits, Partials, AttachmentBuilder } from "discord.js";
+import { startControl } from "./control.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const cfgPath = process.env.BRIDGE_CONFIG || path.join(here, "config.json");
-const cfg = JSON.parse(fs.readFileSync(cfgPath, "utf8").replace(/^﻿/, "")); // PowerShell 5 writes a BOM
+const cfg = JSON.parse(fs.readFileSync(cfgPath, "utf8").replace(/^\uFEFF/, "")); // PowerShell 5 writes a BOM
 
 const BASE = (cfg.opencodeUrl || "http://127.0.0.1:4096").replace(/\/$/, "");
 const DIR = cfg.directory || "C:\\Users\\Allen";
@@ -22,7 +24,8 @@ const SYSTEM_NOTE =
   cfg.systemNote ??
   "This message came from Allen's Discord DM, not the PC or phone app. " +
     "Your final reply is sent back to that DM as plain text (Discord markdown, keep it short). " +
-    "He is probably away from the PC and cannot see the screen.";
+    "He is probably away from the PC and cannot see the screen. " +
+    "You are talking to him through Demon Dodo; use the demon_dodo tool when he asks you to do something in Discord.";
 
 function log(...a) {
   console.log(new Date().toISOString(), ...a);
@@ -320,8 +323,10 @@ async function handleCommand(msg) {
 
 // ---------- Discord client ----------
 
+const intents = [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages];
+if (cfg.membersIntent) intents.push(GatewayIntentBits.GuildMembers); // needs Server Members Intent on in the portal
 const client = new Client({
-  intents: [GatewayIntentBits.DirectMessages, GatewayIntentBits.Guilds],
+  intents,
   partials: [Partials.Channel, Partials.Message],
 });
 
@@ -345,4 +350,8 @@ client.on("messageCreate", async (msg) => {
 });
 
 process.on("unhandledRejection", (e) => log("unhandledRejection", e));
-client.login(cfg.discordToken);
+startControl({ client, port: cfg.controlPort || 4099, authHeader, log });
+client.login(cfg.discordToken).catch((e) => {
+  log("Discord login failed:", e.message);
+  process.exit(1); // start-discord.ps1 restarts it
+});

@@ -6,5 +6,7 @@
   "directory": "C:\\Users\\Allen",
   "screenshotDir": "C:\\Users\\Allen\\Pictures\\OpenCode Screenshots",
   "screenshotsPerReply": 1,
-  "uploadsDir": "C:\\Users\\Allen\\PhoneUploads\\discord"
+  "uploadsDir": "C:\\Users\\Allen\\PhoneUploads\\discord",
+  "controlPort": 4099,
+  "membersIntent": false
 }

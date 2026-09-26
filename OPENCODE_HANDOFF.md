@@ -30,6 +30,7 @@ All three use the same server and the same chat: whatever was used last, the rul
 | Android app source | `C:\Users\Allen\OpenCodeRemoteApp` | Kotlin WebView app; `README.md` has rebuild steps |
 | App signing key | `OpenCodeRemoteApp\app\opencoderemote.keystore` (+ `keystore-BACKUP\`); passwords in `OpenCodeRemoteApp\gradle.properties` | **Back up off this PC.** Losing it means updates won't install over the app |
 | APKs | `C:\Users\Allen\OpenCodeRemote\OpenCodeRemote-1.0.0/1.0.1/1.0.2.apk` | Latest is 1.0.2 (versionCode 3). Cert SHA-256 `f3c6ad07…cd48aa7` |
-| Discord bridge | `C:\Users\Allen\OpenCodeRemote\discord-bridge\` (source: `opencode-discord/` in this repo) | `bridge.js`; logon task "OpenCode Discord" runs `start-discord.ps1`; log in `bridge.log` |
+| Discord bridge (Demon Dodo) | `C:\Users\Allen\OpenCodeRemote\discord-bridge\` (source: `opencode-discord/` in this repo) | `bridge.js` (DM chat) and `control.js` (control API on `127.0.0.1:4099`); logon task "OpenCode Discord" runs `start-discord.ps1`; log in `bridge.log` |
+| Demon Dodo tool | `...\opencode\tool\demon_dodo.js` | the agent acts as the bot: send, DM, read, edit, delete, bulk delete, broadcast, react, status |
 | Discord bot token + owner ID | `...\discord-bridge\config.json` | secret; created by `install.ps1` |
 | Unused leftovers | `OpenCodeRemote\bridge.js`, `OpenCodeRemote\public\index.html` (incomplete), `OpenCodeRemote\test\` | Safe to delete; not used by anything |
