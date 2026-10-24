@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+}
+
+// CI passes GITHUB_RUN_NUMBER so every build can upgrade the previous one in place.
+def buildNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1") as Integer
+
+android {
+    namespace 'com.zxvenom.launcher'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.zxvenom.launcher'
+        minSdk 26
+        targetSdk 35
+        versionCode buildNumber
+        versionName "0.1." + buildNumber
+    }
+
+    // One fixed key for every build type, so debug and release APKs can replace each other.
+    signingConfigs {
+        release {
+            storeFile file("launcher.keystore")
+            storePassword "zxlauncher"
+            keyAlias "zxlauncher"
+            keyPassword "zxlauncher"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // launcher/ui/index.html is bundled as assets/index.html (offline fallback UI).
+    sourceSets {
+        main {
+            assets.srcDirs += ['../../ui']
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+    }
+}

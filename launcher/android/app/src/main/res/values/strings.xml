@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ZX Launcher</string>
+    <string name="cant_open_app">Can\'t open app</string>
+    <string name="cant_open">Nothing can open that</string>
+    <string name="wallpaper_chooser">Wallpaper</string>
+    <string name="webview_missing">The system WebView is unavailable or updating.\nTap to retry.</string>
+</resources>

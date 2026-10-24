@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Bold "ZX" monogram on the 108dp adaptive-icon canvas. Everything sits inside the
+  66dp safe zone (x 30..78, y 38..70), so no system mask shape clips it.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Z -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M30,38 H52 V44 L37.5,64 H52 V70 H30 V64 L44.5,44 H30 Z" />
+
+    <!-- X (two parallelogram strokes) -->
+    <path
+        android:fillColor="@color/ic_launcher_accent"
+        android:pathData="M56,38 H62.6 L78,70 H71.4 Z" />
+    <path
+        android:fillColor="@color/ic_launcher_accent"
+        android:pathData="M71.4,38 H78 L62.6,70 H56 Z" />
+</vector>
