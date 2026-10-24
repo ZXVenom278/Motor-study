@@ -12,3 +12,12 @@ program
 # OS files
 .DS_Store
 Thumbs.db
+
+# Launcher (Android)
+launcher/android/.gradle/
+launcher/android/**/build/
+launcher/android/local.properties
+launcher/android/.idea/
+*.iml
+launcher/android/app/*.keystore
+launcher/android/app/*.jks
